@@ -1,10 +1,13 @@
 const express = require('express');
 
 const {
- httpGetAllLaunches,   
+ httpGetAllLaunches, 
+ httpAdNewLaunches, 
+ 
 } = require('./launches.controller');
 const launchesRouter = express.Router();
 
-launchesRouter.get('/launches' , httpGetAllLaunches);
-
+// /planets/
+launchesRouter.get('/' , httpGetAllLaunches);
+launchesRouter.post('/' , httpAdNewLaunches);
 module.exports = launchesRouter;
