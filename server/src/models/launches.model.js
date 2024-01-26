@@ -1,5 +1,17 @@
 const launches =  new Map();
+latestFlightNumber = 100;
 
+/* Map example
+
+const fruits = new Map([
+  ["apples", 500],
+  ["bananas", 300],
+  ["oranges", 200]
+]);
+
+fruits.set("apples", 200);
+
+*/
 
 const launch ={
    flightNumber:100,
@@ -17,6 +29,22 @@ function getAllLaunches(){
 }
 
 launches.set(launch.flightNumber , launch);
+
+function addNewLaunch(launch){
+   latestFlightNumber++;
+   launches.set(
+      latestFlightNumber,
+      Object.assign(launch,{
+         success : true,
+         upcoming:true,
+         customers:['Zero To Mastery' , 'NASA'],
+         flightNumber:latestFlightNumber,
+
+      })
+   );
+}
+
 module.exports = {
    getAllLaunches,
+   addNewLaunch,
 }
