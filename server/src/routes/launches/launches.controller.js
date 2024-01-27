@@ -11,7 +11,20 @@ function httpGetAllLaunches(req , res){
 function httpAdNewLaunches(req , res){
    const launch = req.body;
 
+   if (!launch.mission || !launch.rocket || !launch.launchDate
+      || launch.destination) {
+      return res.status(400).json({
+         error : "Missing required launch property",
+      });
+   } 
+
    launch.launchDate = new Date(launch.launchDate);
+   // isNan check if a value that we pass in is a number or not
+  if (isNaN(launch.launchDate)) {
+    return res.status(400).json({
+      error: 'Invalid launch date',
+    });
+  }
 
 
    addNewLaunch(launch);
