@@ -50,7 +50,7 @@ async function httpAbortLaunch(id) {
 
 }
 
-export {
+export  {
   httpGetPlanets,
   httpGetLaunches,
   httpSubmitLaunch,
