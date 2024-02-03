@@ -46,4 +46,18 @@ expect(responseDate).toBe(requestDate);
    // .toMatchObject is for Jest that is realated to expect document
    expect(response.body).toMatchObject(launchDateWithoutDate);
  });
+
+
+
+ test('It should catch missing required properties' , async ()=>{
+   const response = await request(app)
+   .post('/launches')
+   .send(launchDateWithoutDate)
+   .expect('Content-Type' , /json/)
+   .expect(400);
+
+   expect(response.body).toStrictEqual({
+      error : 'Missing required launch property',
+   });
+ });
 }); 
