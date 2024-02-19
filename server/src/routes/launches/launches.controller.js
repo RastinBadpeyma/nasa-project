@@ -8,8 +8,8 @@ const {
 
 
 
-function httpGetAllLaunches(req , res){
-   return res.status(200).json(Array.from(getAllLaunches()));
+async function httpGetAllLaunches(req , res){
+   return res.status(200).json(await getAllLaunches());
 }
 
 function httpAdNewLaunches(req , res){
