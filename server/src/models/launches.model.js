@@ -40,6 +40,8 @@ async function getLatestFlightNumber() {
    if (!latestLaunch) {
       return DEFAULT_FLIGHT_NUMBER;
    }
+
+   return latestLaunch.flightNumber;
 }
 
 async function getAllLaunches(){
@@ -63,7 +65,22 @@ async function getAllLaunches(){
    });
  }
 
-function addNewLaunch(launch){
+async function scheduleNewLaunch(launch){
+  const newFlightNumber = await getLatestFlightNumber() + 1;
+
+  const newLaunch = Object.assign(launch, {
+    success : true,
+    upcoming : true,
+    customers : ['Zero to Mastery ','NASA'],
+    flightNumber : newFlightNumber,
+  });
+
+  await saveLaunch(newLaunch);
+}
+
+
+ //this addNewLaunch function works with our launch as map
+/*function addNewLaunch(launch){
    latestFlightNumber++;
    launches.set(
       latestFlightNumber,
@@ -75,7 +92,7 @@ function addNewLaunch(launch){
 
       })
    );
-}
+}*/
 
 function abortLaunchById(launchId){
   const aborted =  launches.get(launchId);
@@ -87,6 +104,7 @@ function abortLaunchById(launchId){
 module.exports = {
    existsLaunchWithId,
    getAllLaunches,
-   addNewLaunch,
+   scheduleNewLaunch,
+   // addNewLaunch,
    abortLaunchById,
 }
