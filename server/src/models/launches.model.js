@@ -58,7 +58,7 @@ async function getAllLaunches(){
    }
 
 
-   await launchesDatabase.updateOne({
+   await launchesDatabase.findOneAndUpdate({
     flightNumber : launch.flightNumber,
    },launch , {
       upsert: true,
