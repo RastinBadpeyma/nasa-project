@@ -2,6 +2,7 @@ const http = require('http');
 
 const mongoose = require('mongoose');
 const express = require('express');
+const { loadLaunchData } = require('./models/launches.model');
 
 // const app = express();
 const app = require('./app');
@@ -24,6 +25,7 @@ mongoose.connection.on('error' ,(err) => {
 async function startServer() {
     await mongoose.connect(MONGO_URL);
    await loadPlanetsData();
+   await loadLaunchData();
    Server.listen(PORT , ()=>{
       console.log(`${PORT}}`);
      });
