@@ -31,7 +31,7 @@ saveLaunch(launch);
 
 const SPACEX_API_URL ='https://api.spacexdata.com/v5/launches/query';
 
-async function loadLaunchData(){
+async function populateLaunches() {
    console.log('Downloading launch data...');
    const response = await axios.post(SPACEX_API_URL, {
      query: {},
@@ -75,8 +75,24 @@ async function loadLaunchData(){
    
        console.log(`${launch.flightNumber} ${launch.mission}`);
    
-       await saveLaunch(launch);
    }
+}
+
+async function loadLaunchData(){
+  const firstLaunch = await findLaunch({
+   flight: 1 ,
+   rocket: 'Falcon 1',
+   mission:'FalconSat',
+  });
+  if (firstLaunch) {
+   console.log('Launch data already loaded!');
+  }else{
+   await populateLaunches();
+  }
+}
+
+async function findLaunch(filter){
+   return await launchesDatabase.findOne(filter);
 }
 
 async function existsLaunchWithId(launchId) {
