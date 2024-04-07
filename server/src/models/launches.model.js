@@ -53,6 +53,11 @@ async function populateLaunches() {
        ]
      }
    });
+
+   if(response.status !==200) {
+      console.log('Problem downloading launch date');
+      throw new Error('Launch date donwload failed');
+   }
    
    const launchDocs = response.data.docs;
    for(const launchDoc of launchDocs)
@@ -74,13 +79,13 @@ async function populateLaunches() {
        };
    
        console.log(`${launch.flightNumber} ${launch.mission}`);
-   
+      await saveLaunch(launch);
    }
 }
 
 async function loadLaunchData(){
   const firstLaunch = await findLaunch({
-   flight: 1 ,
+   flighNumber: 1 ,
    rocket: 'Falcon 1',
    mission:'FalconSat',
   });
@@ -126,6 +131,15 @@ async function getAllLaunches(){
  }
 
 async function scheduleNewLaunch(launch){
+   const planet = await planets.findOne({
+      keplerName:launch.targetm,
+   });
+
+   if (!planet) {
+      throw new Error('No matching planet found');
+   }
+
+
   const newFlightNumber = await getLatestFlightNumber() + 1;
 
   const newLaunch = Object.assign(launch, {
