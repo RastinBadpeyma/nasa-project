@@ -16,19 +16,6 @@ fruits.set("apples", 200);
 
 */
 
-const launch ={
-   flightNumber:100,
-   mission: 'Kepler Exploration X',
-   rocket: 'Explorer IS1',
-   launchDate: new Date('December 27,2030'),
-   target : 'Kepler-442 b',
-   customers : ['ZTM , NASA'],
-   upcoming: true,
-   success: true,
-}
-
-saveLaunch(launch);
-
 const SPACEX_API_URL ='https://api.spacexdata.com/v5/launches/query';
 
 async function populateLaunches() {
@@ -121,6 +108,7 @@ async function getLatestFlightNumber() {
 async function getAllLaunches(skip , limit){
    return await launchesDatabase
    .find({} , {'_id' : 0 , '__v': 0})
+   .sort({flighNumber: 1})
    .skip(skip)
    .limit(limit);
 }
